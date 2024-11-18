@@ -1,5 +1,5 @@
 'use client'
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,9 +14,10 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import AppTheme from '@/theme/AppTheme';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '@/components/CustomIcons';
 import ColorModeSelect from '@/theme/ColorModeSelect';
+import { signUp, doesEmailExist } from "supertokens-web-js/recipe/emailpassword";
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,13 +61,31 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+export default function SignUpPage() {
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [nameError, setNameError] = useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = useState('');
+
+  async function checkEmail(email: string) {
+    try {
+      let response = await doesEmailExist({
+        email
+      });
+
+      if (response.doesExist) {
+        window.alert("Email already exists. Please sign in instead")
+      }
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        window.alert(err.message);
+      } else {
+        window.alert("Oops! Something went wrong.");
+      }
+    }
+  }
 
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
@@ -105,18 +124,57 @@ export default function SignUp() {
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  async function register(email: string, password: string) {
+    try {
+      let response = await signUp({
+        formFields: [{
+          id: "email",
+          value: email
+        }, {
+          id: "password",
+          value: password
+        }]
+      })
+
+      if (response.status === "FIELD_ERROR") {
+        response.formFields.forEach(formField => {
+          if (formField.id === "email") {
+            window.alert(formField.error)
+          } else if (formField.id === "password") {
+            window.alert(formField.error)
+          }
+        })
+      } else if (response.status === "SIGN_UP_NOT_ALLOWED") {
+        // the reason string is a user friendly message
+        // about what went wrong. It can also contain a support code which users
+        // can tell you so you know why their sign up was not allowed.
+        window.alert(response.reason)
+      } else {
+        window.location.href = "/dashboard"
+      }
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you.
+        window.alert(err.message);
+      } else {
+        window.alert("Oops! Something went wrong.");
+      }
+    }
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (nameError || emailError || passwordError) {
       event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    let name = data.get('name')
+    let lastName = data.get('lastName')
+    let email = data.get('email') as string
+    let password = data.get('password') as string
+
+    await register(email, password)
   };
 
   return (

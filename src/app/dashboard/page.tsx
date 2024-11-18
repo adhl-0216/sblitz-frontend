@@ -4,11 +4,11 @@ import { alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import AppNavbar from './AppNavbar';
-import Header from './Header';
-import SideMenu from './SideMenu';
+import AppNavbar from '../../components/AppNavbar';
+import Header from '../../components/Header';
+import SideMenu from '../../components/SideMenu';
 
-export default function Dashboard(props: { disableCustomTheme?: boolean }) {
+export default function Dashboard() {
   return (
     <>
       <CssBaseline enableColorScheme />

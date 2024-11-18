@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    networks:
+      - sblitz_default-network
+
+networks:
+  sblitz_default-network:
+    external: true
