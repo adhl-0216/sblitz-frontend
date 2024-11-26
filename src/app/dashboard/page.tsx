@@ -7,8 +7,9 @@ import Stack from '@mui/material/Stack';
 import AppNavbar from '../../components/AppNavbar';
 import Header from '../../components/Header';
 import SideMenu from '../../components/SideMenu';
+import withProtectedRoute from '@/components/withProtectedRoute';
 
-export default function Dashboard() {
+function DashboardPage() {
   return (
     <>
       <CssBaseline enableColorScheme />
@@ -40,3 +41,5 @@ export default function Dashboard() {
     </>
   );
 }
+
+export default withProtectedRoute(DashboardPage)

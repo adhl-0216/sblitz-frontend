@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import NavbarBreadcrumbs from './NavbarBreadcrumbs';
 import MenuButton from './MenuButton';
-import ColorModeIconDropdown from '../theme/ColorModeIconDropdown';
+import ColorModeToggle from './ColorModeToggle';
 
 import Search from './Search';
 
@@ -27,7 +27,7 @@ export default function Header() {
         <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton>
-        <ColorModeIconDropdown />
+        <ColorModeToggle />
       </Stack>
     </Stack>
   );

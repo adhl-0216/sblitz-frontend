@@ -11,9 +11,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { SitemarkIcon } from '@/components/CustomIcons';
-import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
+import ColorModeToggle from '@/components/ColorModeToggle';
 import Link from 'next/link';
+import { Typography } from '@mui/material';
+import { SblitzIcon } from './CustomIcons';
+import { Height } from '@mui/icons-material';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -28,6 +30,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   boxShadow: theme.shadows[1],
   padding: '8px 12px',
 }));
+
+
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
@@ -49,29 +53,9 @@ export default function AppAppBar() {
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
-            <SitemarkIcon />
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
-                Features
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Testimonials
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Highlights
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Pricing
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                FAQ
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                Blog
-              </Button>
-            </Box>
-          </Box>
+          <SblitzIcon />
+
+          {/* Display md */}
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
@@ -79,16 +63,18 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
+            <Button LinkComponent={Link} href='/sign-in' color="primary" variant="text" size="small">
               Sign in
             </Button>
-            <Button color="primary" variant="contained" size="small">
+            <Button LinkComponent={Link} href='/sign-up' color="primary" variant="contained" size="small">
               Sign up
             </Button>
-            <ColorModeIconDropdown />
+            <ColorModeToggle />
           </Box>
+
+          {/* Display xs */}
           <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
-            <ColorModeIconDropdown size="medium" />
+            <ColorModeToggle size="medium" />
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
@@ -114,25 +100,22 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
 
-                <MenuItem>Features</MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
-                  <Link href="/sign-up" passHref>
-                    <Button color="primary" variant="contained" fullWidth>
-                      Sign up
-                    </Button>
-                  </Link>
+                  <Button LinkComponent={Link} href='/sign-up'
+                    color="primary" variant="contained" fullWidth>
+                    Sign up
+                  </Button>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/sign-in" passHref>
-                    <Button color="primary" variant="outlined" fullWidth>
-                      Sign in
-                    </Button>
-                  </Link>
+                  <Button LinkComponent={Link} href='/sign-up' color="primary" variant="outlined" fullWidth>
+                    Sign in
+                  </Button>
                 </MenuItem>
               </Box>
             </Drawer>
-          </Box>
+          </Box >
+
         </StyledToolbar>
       </Container>
     </AppBar>

@@ -16,9 +16,10 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from '@/components/ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '@/components/CustomIcons';
-import AppTheme from '@/theme/AppTheme';
-import ColorModeSelect from '@/theme/ColorModeSelect';
+import { GoogleIcon, FacebookIcon, SblitzIcon } from '@/components/CustomIcons';
+import ColorModeToggle from '@/components/ColorModeToggle';
+import { signIn } from "supertokens-web-js/recipe/emailpassword";
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -62,7 +63,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignInPage() {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -77,17 +78,60 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email') as string
+    const password = data.get('password') as string
+    await supertokensSignIn(
+      email, password
+    );
   };
+
+
+  async function supertokensSignIn(email: string, password: string) {
+    try {
+      const response = await signIn({
+        formFields: [{
+          id: "email",
+          value: email
+        }, {
+          id: "password",
+          value: password
+        }]
+      })
+
+      if (response.status === "FIELD_ERROR") {
+        response.formFields.forEach(formField => {
+          if (formField.id === "email") {
+            // Email validation failed (for example incorrect email syntax).
+            window.alert(formField.error)
+          }
+        })
+      } else if (response.status === "WRONG_CREDENTIALS_ERROR") {
+        window.alert("Email password combination is incorrect.")
+      } else if (response.status === "SIGN_IN_NOT_ALLOWED") {
+        // the reason string is a user friendly message
+        // about what went wrong. It can also contain a support code which users
+        // can tell you so you know why their sign in was not allowed.
+        window.alert(response.reason)
+      } else {
+        // sign in successful. The session tokens are automatically handled by
+        // the frontend SDK.
+        window.location.href = "/dashboard"
+      }
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you.
+        window.alert(err.message);
+      } else {
+        window.alert("Oops! Something went wrong.");
+      }
+    }
+  }
 
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
@@ -118,11 +162,10 @@ export default function SignIn() {
 
   return (
     <>
-      <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
-        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+        <ColorModeToggle sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <SitemarkIcon />
+          <SblitzIcon />
           <Typography
             component="h1"
             variant="h4"
@@ -204,7 +247,7 @@ export default function SignIn() {
               Don&apos;t have an account?{' '}
               <span>
                 <Link
-                  href="/material-ui/getting-started/templates/sign-in/"
+                  href="/sign-up"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >

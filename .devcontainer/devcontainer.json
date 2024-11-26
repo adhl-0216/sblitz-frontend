@@ -3,7 +3,7 @@
 {
 	"name": "NextJs Typescript DooD",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
+	"service": "frontend-app",
 	"features": {
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 			"version": "latest",
@@ -11,12 +11,13 @@
 			"moby": "true"
 		}
 	},
+	"workspaceFolder": "/workspace/${localWorkspaceFolderBasename}"
 	// Use this environment variable if you need to bind mount your local source code into a new container.
 	// "remoteEnv": {
 	// 	"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
 	// }
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	// "forwardPorts": [	]
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "docker --version",
 	// Configure tool-specific properties.

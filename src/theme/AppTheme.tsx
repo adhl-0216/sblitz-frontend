@@ -6,9 +6,6 @@ import { colorSchemes, typography, shadows, shape } from './themePrimitives';
 
 interface AppThemeProps {
   children: React.ReactNode;
-  /**
-   * This is for the docs site. You can ignore it or remove it.
-   */
   disableCustomTheme?: boolean;
   themeComponents?: ThemeOptions['components'];
 }
@@ -22,12 +19,14 @@ export default function AppTheme({
     return disableCustomTheme
       ? {}
       : createTheme({
-        // For more details about CSS variables configuration, see https://mui.com/material-ui/customization/css-theme-variables/configuration/
+        palette: {
+          mode: 'dark',
+        },
         cssVariables: {
           colorSchemeSelector: 'data-mui-color-scheme',
           cssVarPrefix: 'template',
         },
-        colorSchemes, // Recently added in v6 for building light & dark mode app, see https://mui.com/material-ui/customization/palette/#color-schemes
+        colorSchemes,
         typography,
         shadows,
         shape,

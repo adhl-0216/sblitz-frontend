@@ -14,4 +14,3 @@ export const frontendConfig = (): SuperTokensConfig => {
         ],
     }
 }
-

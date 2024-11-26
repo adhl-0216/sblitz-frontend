@@ -11,7 +11,8 @@ import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 
 import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
-import CardAlert from './CardAlert';
+
+import Session from "supertokens-web-js/recipe/session";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -19,6 +20,11 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
+  async function logout() {
+    await Session.signOut();
+    window.location.href = "/sign-in"; // or to wherever your logic page is
+  }
+
   return (
     <Drawer
       anchor="right"
@@ -62,9 +68,8 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           <MenuContent />
           <Divider />
         </Stack>
-        <CardAlert />
         <Stack sx={{ p: 2 }}>
-          <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
+          <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />} onClick={logout}>
             Logout
           </Button>
         </Stack>

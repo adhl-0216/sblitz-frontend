@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '@/components/CustomIcons';
-import ColorModeSelect from '@/theme/ColorModeSelect';
+import { GoogleIcon, FacebookIcon, SblitzIcon } from '@/components/CustomIcons';
+import ColorModeToggle from '@/components/ColorModeToggle';
 import { signUp, doesEmailExist } from "supertokens-web-js/recipe/emailpassword";
 
 
@@ -163,8 +163,8 @@ export default function SignUpPage() {
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (nameError || emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
@@ -179,11 +179,10 @@ export default function SignUpPage() {
 
   return (
     <>
-      <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+      <ColorModeToggle sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
-          <SitemarkIcon />
+          <SblitzIcon />
           <Typography
             component="h1"
             variant="h4"
@@ -241,10 +240,10 @@ export default function SignUpPage() {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
               label="I want to receive updates via email."
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -257,7 +256,7 @@ export default function SignUpPage() {
               Already have an account?{' '}
               <span>
                 <Link
-                  href="/material-ui/getting-started/templates/sign-in/"
+                  href="/sign-in/"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
