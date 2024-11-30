@@ -22,7 +22,7 @@ interface SideMenuMobileProps {
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
   async function logout() {
     await Session.signOut();
-    window.location.href = "/sign-in"; // or to wherever your logic page is
+    window.location.href = "/sign-in";
   }
 
   return (
@@ -51,12 +51,10 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt="Riley Carter"
-              src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              mail.com
             </Typography>
           </Stack>
           <MenuButton showBadge>

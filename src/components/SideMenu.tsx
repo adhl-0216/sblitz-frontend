@@ -54,18 +54,15 @@ export default function SideMenu() {
           borderTop: '1px solid',
           borderColor: 'divider',
         }}
+        justifyContent='space-between'
       >
-        <Avatar
-          sizes="small"
-          alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
-          sx={{ width: 36, height: 36 }}
-        />
-        <Box sx={{ mr: 'auto' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1 }} >
+          <Avatar
+            sizes="small"
+            alt=""
+            sx={{ width: 36, height: 36 }}
+          />
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            Riley Carter
-          </Typography>
-          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
             riley@email.com
           </Typography>
         </Box>

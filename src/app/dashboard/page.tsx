@@ -8,6 +8,7 @@ import AppNavbar from '../../components/AppNavbar';
 import Header from '../../components/Header';
 import SideMenu from '../../components/SideMenu';
 import withProtectedRoute from '@/components/withProtectedRoute';
+import BillsContainer from '@/components/BillsContainer';
 
 function DashboardPage() {
   return (
@@ -16,7 +17,6 @@ function DashboardPage() {
       <Box sx={{ display: 'flex' }}>
         <SideMenu />
         <AppNavbar />
-        {/* Main content */}
         <Box
           component="main"
           sx={(theme) => ({
@@ -35,6 +35,7 @@ function DashboardPage() {
             }}
           >
             <Header />
+            <BillsContainer />
           </Stack>
         </Box>
       </Box>
