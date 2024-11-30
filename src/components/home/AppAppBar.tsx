@@ -14,7 +14,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeToggle from '@/components/ColorModeToggle';
 import Link from 'next/link';
 import { Typography } from '@mui/material';
-import { SblitzIcon } from './CustomIcons';
+import { SblitzIcon } from '../CustomIcons';
 import { Height } from '@mui/icons-material';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({

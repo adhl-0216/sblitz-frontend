@@ -4,11 +4,12 @@ import { alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import AppNavbar from '../../components/AppNavbar';
-import Header from '../../components/Header';
-import SideMenu from '../../components/SideMenu';
+
+import AppNavbar from '@/components/dashboard/AppNavbar';
+import Header from '@/components/dashboard/Header';
+import SideMenu from '@/components/dashboard/SideMenu';
 import withProtectedRoute from '@/components/withProtectedRoute';
-import BillsContainer from '@/components/BillsContainer';
+import BillsContainer from '@/components/dashboard/billsContainer/BillsContainer';
 
 function DashboardPage() {
   return (

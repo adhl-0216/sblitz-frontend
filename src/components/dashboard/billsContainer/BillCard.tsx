@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
-import MembersList from '@/components/MembersList';
+import MembersList from '@/components/dashboard/billsContainer/MembersList';
 import { Member } from '@/models/Member';
 import Link from 'next/link'; // Import Link from Next.js
 

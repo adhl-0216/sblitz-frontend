@@ -1,9 +1,9 @@
 'use client'
 import Container from '@mui/material/Container';
-import AppAppBar from '@/components/AppAppBar';
-import Features from '@/components/Features';
-import Footer from '@/components/Footer';
-import Hero from '@/components/Hero';
+import AppAppBar from '@/components/home/AppAppBar';
+import Features from '@/components/home/Features';
+import Footer from '@/components/home/Footer';
+import Hero from '@/components/home/Hero';
 
 
 export default function Home() {

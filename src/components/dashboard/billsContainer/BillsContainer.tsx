@@ -9,7 +9,7 @@ import { randomUUID, UUID } from 'crypto';
 import { Member } from '@/models/Member';
 import { v4 as uuidv4 } from 'uuid';
 import { Grid2 as Grid, Skeleton } from '@mui/material';
-import CreateBillButton from './CreateBill/CreateBillButton'; // Import CreateBillButton
+import CreateBillButton from '../createBill/CreateBillButton'; // Import CreateBillButton
 
 export default function BillsContainer() {
     const [bills, setBills] = useState<Bill[]>([

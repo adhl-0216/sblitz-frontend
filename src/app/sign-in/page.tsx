@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import ForgotPassword from '@/components/ForgotPassword';
+import ForgotPassword from '@/components/sign-in/ForgotPassword';
 import { GoogleIcon, FacebookIcon, SblitzIcon } from '@/components/CustomIcons';
 import ColorModeToggle from '@/components/ColorModeToggle';
 import { signIn } from "supertokens-web-js/recipe/emailpassword";
