@@ -6,13 +6,12 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import MenuContent from './MenuContent';
 import { IconButton } from '@mui/material';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import Session from "supertokens-web-js/recipe/session";
-import { SblitzIcon } from './CustomIcons';
 
-
+import MenuContent from '@/components/dashboard/MenuContent';
+import { SblitzIcon } from '@/components/CustomIcons';
 
 const drawerWidth = 240;
 

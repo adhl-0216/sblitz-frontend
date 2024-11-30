@@ -2,6 +2,6 @@ import { UUID } from "crypto";
 
 export interface Member {
     name: string
-    memberId: UUID
+    id: UUID
     colorCode: string
 }

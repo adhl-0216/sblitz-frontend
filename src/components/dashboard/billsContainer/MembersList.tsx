@@ -11,10 +11,10 @@ interface MembersListProps {
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
     textDecoration: 'none',
-    transition: 'transform 0.3s ease', // Animation for hover
+    transition: 'transform 0.3s ease',
     '&:hover': {
-        transform: 'scale(1.2)', // Scale up on hover
-        zIndex: 1, // Bring the hovered avatar to the front
+        transform: 'scale(1.2)',
+        zIndex: 1,
     },
 }));
 
@@ -26,20 +26,21 @@ function getInitials(name: string): string {
 
 export default function MembersList({ members }: MembersListProps) {
     return (
-        <div>
-            <AvatarGroup max={2} spacing="small">
-                {members.map((member) => (
+        <AvatarGroup max={2} spacing="small">
+            {members.map((member) => {
+                return (
                     <StyledAvatar
-                        key={member.memberId}
+                        key={member.id}
                         alt={member.name}
+                        title={member.name}
                         sx={{ bgcolor: member.colorCode }}
                     >
-                        <Link href={`/u/${member.memberId}`} style={{ textDecoration: 'none', color: 'inherit' }} >
+                        <Link href={`/u/${member.id}`} style={{ textDecoration: 'none', color: 'inherit' }} >
                             {getInitials(member.name)}
                         </Link>
                     </StyledAvatar>
-                ))}
-            </AvatarGroup>
-        </div>
+                )
+            })}
+        </AvatarGroup>
     );
 }

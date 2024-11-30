@@ -7,14 +7,14 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import MembersList from '@/components/dashboard/billsContainer/MembersList';
 import { Member } from '@/models/Member';
-import Link from 'next/link'; // Import Link from Next.js
+import Link from 'next/link';
 
 interface BillCardProps {
     title: string;
     description: string;
     lastUpdated: Date;
     members: Member[];
-    billId: string; // Add billId prop
+    billId: string;
 }
 
 export default function BillCard({ title, description, lastUpdated, members, billId }: BillCardProps) {
@@ -29,7 +29,7 @@ export default function BillCard({ title, description, lastUpdated, members, bil
             flexDirection: 'column', // Stack children vertically
             color: 'inherit' // Inherit text color
         }} >
-            <CardContent sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }} component={Link} href={billId}>
+            <CardContent sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }} component={Link} href={`/b/${billId}`}>
                 <Typography gutterBottom variant="h6" component="div">
                     {title}
                 </Typography>

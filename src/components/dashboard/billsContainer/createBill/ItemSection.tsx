@@ -27,7 +27,7 @@ const ItemSection: React.FC<ItemSectionProps> = ({ items, setBillData }) => {
             setBillData((prev) => ({
                 ...prev,
                 items: updatedItems,
-                totalAmount: updatedTotalAmount,
+                totalAmount: parseFloat(updatedTotalAmount.toFixed(2)),
             }));
         }
 

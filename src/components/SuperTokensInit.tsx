@@ -4,7 +4,6 @@ import SuperTokensWebJs from 'supertokens-web-js'
 import { frontendConfig } from '@/config/frontend';
 
 if (typeof window !== 'undefined') {
-    console.log(frontendConfig())
     SuperTokensWebJs.init(frontendConfig());
 }
 

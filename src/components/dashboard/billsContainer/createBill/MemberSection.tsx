@@ -6,7 +6,7 @@ import { UUID } from 'crypto';
 import { Item } from '@/models/Item';
 
 interface MemberSectionProps {
-    members: Member[];
+    members: Omit<Member, 'id'>[];
     setBillData: React.Dispatch<React.SetStateAction<{
         title?: string;
         description?: string;
