@@ -6,7 +6,7 @@ import BillCard from './BillCard';
 import { getErrorMessage } from '@/error';
 import { Bill } from '@/models/Bill';
 import { Box, Grid2 as Grid, Skeleton } from '@mui/material';
-import CreateBillModal from './createBill/CreateBillModal';
+import CreateBillModal from '@/components/dashboard/billsContainer/CreateBillModal';
 
 interface BillsContainerProps {
     showAlert: (message: string, severity: 'success' | 'error') => void
@@ -21,11 +21,11 @@ export default function BillsContainer({ showAlert }: BillsContainerProps) {
         setLoading(true);
         try {
             const response = await axios.get('/api/bill/all-bills');
-            const billsData = response.data.map((bill: any) => ({
+            const billsData = response.data.map((bill: Bill) => ({
                 ...bill,
-                totalAmount: parseFloat(bill.total_amount),
-                createdAt: new Date(bill.created_at),
-                updatedAt: new Date(bill.updated_at),
+                totalAmount: bill.totalAmount,
+                createdAt: new Date(bill.createdAt),
+                updatedAt: new Date(bill.updatedAt),
                 items: bill.items || [],
                 members: bill.members ? bill.members.map((member: any) => ({
                     name: member.name,
@@ -43,12 +43,7 @@ export default function BillsContainer({ showAlert }: BillsContainerProps) {
 
     useEffect(() => {
         fetchBills();
-    }, [fetchBills]);
-
-    const handleBillCreated = () => {
-        fetchBills();
-        showAlert('Bill created successfully!', 'success');
-    };
+    }, []);
 
     if (loading) {
         return (
@@ -68,21 +63,21 @@ export default function BillsContainer({ showAlert }: BillsContainerProps) {
     if (error) return <div>Error loading bills.</div>;
 
     return (
-        <Box>
-            <Grid container spacing={2}>
-                <CreateBillModal refetchBills={fetchBills} showAlert={showAlert} />
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, flexWrap: 'wrap' }}>
+            <CreateBillModal refetchBills={fetchBills} showAlert={showAlert} />
 
-                {bills.map((bill) => (
-                    <BillCard
-                        key={bill.id}
-                        billId={bill.id}
-                        title={bill.title}
-                        description={bill.description!}
-                        lastUpdated={bill.updatedAt}
-                        members={bill.members}
-                    />
-                ))}
-            </Grid>
+            {bills.map((bill) => (
+                <BillCard
+                    key={bill.id}
+                    billId={bill.id}
+                    title={bill.title}
+                    description={bill.description!}
+                    lastUpdated={bill.updatedAt}
+                    members={bill.members}
+                    showAlert={showAlert}
+                    refetchBills={fetchBills}
+                />
+            ))}
         </Box>
     );
 }

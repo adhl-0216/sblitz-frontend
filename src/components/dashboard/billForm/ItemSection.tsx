@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Item, SplitType } from '@/models/Item';
 import { Member } from '@/models/Member';
-import CurrencyInput, { CurrencyInputOnChangeValues } from 'react-currency-input-field';
-import PriceInput from './PriceInput';
+import PriceInput from '@/components/dashboard/billForm/PriceInput';
 
 interface ItemSectionProps {
     items: Omit<Item, 'id'>[];
@@ -21,15 +21,14 @@ interface ItemSectionProps {
 const ItemSection: React.FC<ItemSectionProps> = ({ items, setBillData }) => {
     const [itemData, setItemData] = React.useState(items);
 
-    const updateBill
-        = (updatedItems: Omit<Item, 'id'>[]) => {
-            const updatedTotalAmount = updatedItems.reduce((total, item) => total + item.price * item.quantity, 0);
-            setBillData((prev) => ({
-                ...prev,
-                items: updatedItems,
-                totalAmount: parseFloat(updatedTotalAmount.toFixed(2)),
-            }));
-        }
+    const updateBill = (updatedItems: Omit<Item, 'id'>[]) => {
+        const updatedTotalAmount = updatedItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        setBillData((prev) => ({
+            ...prev,
+            items: updatedItems,
+            totalAmount: parseFloat(updatedTotalAmount.toFixed(2)),
+        }));
+    };
 
     const handleAddItem = () => {
         const newItem: Omit<Item, 'id'> = {
@@ -50,7 +49,7 @@ const ItemSection: React.FC<ItemSectionProps> = ({ items, setBillData }) => {
         const updatedItems = [...itemData];
         updatedItems[index].name = newName;
         setItemData(updatedItems);
-        updateBill(updatedItems)
+        updateBill(updatedItems);
     };
 
     const handleQuantityChange = (index: number, value: string) => {
@@ -63,34 +62,43 @@ const ItemSection: React.FC<ItemSectionProps> = ({ items, setBillData }) => {
             updatedItems[index].quantity = 0;
         }
         setItemData(updatedItems);
-        updateBill(updatedItems)
-
+        updateBill(updatedItems);
     };
 
     const setItemPrice = (index: number, value: number): void => {
         const updatedItems = [...itemData];
         updatedItems[index].price = value;
         setItemData(updatedItems);
-        updateBill(updatedItems)
+        updateBill(updatedItems);
+    };
+
+    const handleDeleteItem = (index: number) => {
+        const updatedItems = itemData.filter((_, i) => i !== index);
+        setItemData(updatedItems);
+        updateBill(updatedItems);
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', mb: '10px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', mb: 2 }}>
             <Typography variant="subtitle1">Items</Typography>
             {itemData?.map((item, index) => (
-                <Box key={index} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1 }}>
+                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
                     <TextField
-                        label="Item Name"
+                        label="Item"
                         value={item.name}
                         onChange={(e) => handleNameChange(index, e.target.value)}
                         fullWidth
                         required
                         margin="normal"
-                        sx={{ mr: 1 }}
                     />
-                    <PriceInput value={item.price} index={index} setItemPrice={setItemPrice} />
+                    {/* <PriceInput
+                        value={item.price}
+                        index={index}
+                        setItemPrice={setItemPrice}
+                    /> */}
                     <TextField
                         label="Quantity"
+                        title="Quantity"
                         value={item.quantity}
                         onChange={(e) => handleQuantityChange(index, e.target.value)}
                         fullWidth
@@ -98,6 +106,14 @@ const ItemSection: React.FC<ItemSectionProps> = ({ items, setBillData }) => {
                         margin="normal"
                         inputMode="numeric"
                     />
+                    <IconButton
+                        onClick={() => handleDeleteItem(index)}
+                        sx={{
+                            color: 'error.main',
+                        }}
+                    >
+                        <RemoveCircleOutlineIcon />
+                    </IconButton>
                 </Box>
             ))}
             <Button

@@ -27,6 +27,7 @@ const PriceInput: React.FC<PriceInputProps> = ({ value, index, setItemPrice }) =
     return (
         <TextField
             label="Price"
+            title="Price"
             value={inputValue}
             onChange={handleInputChange}
             onBlur={handleBlur}

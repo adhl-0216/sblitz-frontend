@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Member } from '@/models/Member';
 import { UUID } from 'crypto';
 import { Item } from '@/models/Item';
@@ -32,7 +33,7 @@ const MemberSection: React.FC<MemberSectionProps> = ({ members, setBillData }) =
 
     const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const updatedMembers = [...(members || [])];
-        updatedMembers[index].colorCode = e.target.value; // Update color code for the member
+        updatedMembers[index].colorCode = e.target.value;
         setBillData((prev) => ({
             ...prev,
             members: updatedMembers,
@@ -48,20 +49,19 @@ const MemberSection: React.FC<MemberSectionProps> = ({ members, setBillData }) =
         }));
     };
 
+    const handleRemoveMember = (index: number) => {
+        const updatedMembers = members.filter((_, i) => i !== index);
+        setBillData((prevData) => ({
+            ...prevData,
+            members: updatedMembers,
+        }));
+    };
+
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', mb: '10px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', mb: 2 }}>
             <Typography variant="subtitle1">Members</Typography>
             {members?.map((member, index) => (
-                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, width: '100%' }}>
-                    <TextField
-                        label="Member Name"
-                        value={member.name}
-                        onChange={(e) => handleNameChange(index, e.target.value)}
-                        fullWidth
-                        required
-                        margin="normal"
-                        sx={{ mr: 1 }}
-                    />
+                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, width: '100%', gap: 1 }}>
                     <IconButton
                         key={index}
                         sx={{
@@ -71,7 +71,6 @@ const MemberSection: React.FC<MemberSectionProps> = ({ members, setBillData }) =
                             backgroundColor: member.colorCode,
                             padding: 0,
                             cursor: 'pointer',
-                            marginLeft: '10px',
                             position: 'relative',
                         }}
                     >
@@ -88,6 +87,23 @@ const MemberSection: React.FC<MemberSectionProps> = ({ members, setBillData }) =
                                 zIndex: 1,
                             }}
                         />
+                    </IconButton>
+                    <TextField
+                        label="Member"
+                        value={member.name}
+                        onChange={(e) => handleNameChange(index, e.target.value)}
+                        fullWidth
+                        required
+                        margin="normal"
+                    />
+
+                    <IconButton
+                        onClick={() => handleRemoveMember(index)}
+                        sx={{
+                            color: 'error.main',
+                        }}
+                    >
+                        <RemoveCircleOutlineIcon />
                     </IconButton>
                 </Box>
             ))}

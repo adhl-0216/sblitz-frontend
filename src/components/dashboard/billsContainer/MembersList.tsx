@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles'; // Import styled for custom style
 
 interface MembersListProps {
     members: Member[];
+    displayMax?: number;
 }
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
@@ -24,9 +25,9 @@ function getInitials(name: string): string {
     return initials;
 }
 
-export default function MembersList({ members }: MembersListProps) {
+export default function MembersList({ members, displayMax = 3 }: MembersListProps) {
     return (
-        <AvatarGroup max={2} spacing="small">
+        <AvatarGroup max={displayMax} spacing="small">
             {members.map((member) => {
                 return (
                     <StyledAvatar

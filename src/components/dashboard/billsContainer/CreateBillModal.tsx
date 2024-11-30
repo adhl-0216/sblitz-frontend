@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import BillForm from './BillForm';
+import BillForm from '@/components/dashboard/billForm/BillForm';
 import { Box, Modal, Typography, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 import { Bill } from '@/models/Bill';
@@ -11,7 +11,7 @@ interface CreateBillModalProps {
     showAlert: (message: string, severity: 'success' | 'error') => void;
 }
 
-const CreateBillModal: React.FC<CreateBillModalProps> = ({ showAlert, refetchBills }) => {
+export default function CreateBillModal({ showAlert, refetchBills }: CreateBillModalProps) {
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -56,7 +56,7 @@ const CreateBillModal: React.FC<CreateBillModalProps> = ({ showAlert, refetchBil
             <Modal open={open} onClose={handleClose}>
                 <Box
                     sx={{
-                        width: 400,
+                        width: '28rem',
                         bgcolor: 'background.paper',
                         padding: 4,
                         borderRadius: 2,
@@ -78,5 +78,3 @@ const CreateBillModal: React.FC<CreateBillModalProps> = ({ showAlert, refetchBil
         </>
     );
 };
-
-export default CreateBillModal;
