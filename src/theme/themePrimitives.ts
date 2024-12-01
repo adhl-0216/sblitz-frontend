@@ -19,7 +19,7 @@ declare module '@mui/material/styles/createPalette' {
     900: string;
   }
 
-  interface PaletteColor extends ColorRange {}
+  interface PaletteColor extends ColorRange { }
 
   interface Palette {
     baseShadow: string;
@@ -341,7 +341,7 @@ export const colorSchemes = {
 };
 
 export const typography = {
-  fontFamily: ['"Inter", "sans-serif"'].join(','),
+  fontFamily: ['"Comfortaa", "sans-serif"'].join(','),
   h1: {
     fontSize: defaultTheme.typography.pxToRem(48),
     fontWeight: 600,

@@ -1,10 +1,12 @@
 'use client'
 import { Bill } from '@/models/Bill';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getErrorMessage } from '@/error';
 import BillForm from '@/components/dashboard/billForm/BillForm';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { Box } from '@mui/material';
+import { AlertContext } from '@/app/(dashboard-layout)/layout';
+import { AlertSeverity } from '@/types/alert';
 
 export default function BillDetailsPage({
     params,
@@ -12,96 +14,77 @@ export default function BillDetailsPage({
     params: Promise<{ id: string }>;
 }) {
     const [billDetails, setBillDetails] = useState<Bill | null>(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | undefined>(undefined);
     const [billId, setBillId] = useState<string | null>(null);
+    const alertContext = useContext(AlertContext);
+
 
     useEffect(() => {
         const fetchBillId = async () => {
             const billIdParam = (await params).id;
             setBillId(billIdParam);
         };
-
         fetchBillId();
-    }, [params]);
+    }, []);
 
     useEffect(() => {
         if (billId) {
-            const fetchBillDetails = async () => {
-                try {
-                    const response = await axios.get(`/api/bill/${billId}`);
-                    console.log(response.data)
-                    setBillDetails(response.data);
-                } catch (error) {
-                    setError(getErrorMessage(error));
-                } finally {
-                    setLoading(false);
-                }
-            };
-
             fetchBillDetails();
         }
     }, [billId]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+
+    const fetchBillDetails = async () => {
+        try {
+            const response = await axios.get(`/api/bill/${billId}`);
+            console.log(response.data)
+            setBillDetails(response.data);
+        } catch (error) {
+            setError(getErrorMessage(error));
+        }
+    };
 
     if (error) {
         return <div>Error: {error}</div>;
     }
 
-    const handleSubmit = (bill: Bill) => {
-        // Handle the form submission logic here (e.g., save or update the bill)
-        console.log('Submitted Bill:', bill);
-    };
 
-    // Map the fetched bill data to match the format expected by the BillForm component
-    const initialFormData = billDetails ? {
-        title: billDetails.title,
-        description: billDetails.description || '',
-        currency: billDetails.currency,
-        totalAmount: billDetails.totalAmount,
-        items: billDetails.items.map(item => ({
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            splitType: item.splitType,
-            splits: item.splits
-        })),
-        members: billDetails.members.map(member => ({
-            name: member.name,
-            colorCode: member.colorCode
-        }))
-    } : null;
+    const handleSubmit = async (billData: Bill) => {
+        try {
+            if (!billId) {
+                console.error('Bill ID is required for updating.');
+                return;
+            }
+
+            const response = await axios.put(`/api/bill/${billId}`, billData, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (response.status == 200) {
+                alertContext?.showAlert('Bill updated successfully!', AlertSeverity.Success);
+                fetchBillDetails()
+            }
+
+
+        } catch (error) {
+            console.error('Error submitting bill:', error);
+        }
+    };
 
     return (
         <>
-
             <Box>
                 <h1>Bill Details</h1>
-                {initialFormData ? (
+                {billDetails ? (
                     <BillForm
+                        mode='update'
                         onSubmit={handleSubmit}
-                        initialData={initialFormData}
+                        initialData={billDetails}
                     />
                 ) : (
-                    <div>Loading bill form...</div>
+                    null
                 )}
-                {/* <pre>
-                {JSON.stringify(billDetails, null, 2)}
-                </pre> */}
             </Box>
-            {/* Snackbar for alerts */}
-            {
-                // alert && (
-                //     <Snackbar open autoHideDuration={6000} onClose={handleAlertClose}>
-                //         <Alert onClose={handleAlertClose} severity={alert.severity}>
-                //             {alert.message}
-                //         </Alert>
-                //     </Snackbar>
-                // )
-            }
         </>
     );
 }

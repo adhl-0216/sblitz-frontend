@@ -8,6 +8,7 @@ interface PriceInputProps {
 }
 
 const PriceInput: React.FC<PriceInputProps> = ({ value, index, setItemPrice }) => {
+    if (isNaN(value)) throw new Error("value is not number. ensure value is parsed to float")
     const [inputValue, setInputValue] = React.useState<string>(value.toFixed(2));
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

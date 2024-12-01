@@ -1,9 +1,10 @@
+import { AlertSeverity } from '@/types/alert';
 import { useState } from 'react';
 
 export function useAlert() {
-    const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error' } | null>(null);
+    const [alert, setAlert] = useState<{ message: string; severity: AlertSeverity } | null>(null);
 
-    const showAlert = (message: string, severity: 'success' | 'error') => {
+    const showAlert = (message: string, severity: AlertSeverity) => {
         setAlert({ message, severity });
     };
 

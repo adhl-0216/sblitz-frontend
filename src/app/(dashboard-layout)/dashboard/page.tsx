@@ -1,27 +1,28 @@
 'use client';
-import React from 'react';
-import { useAlert } from '@/hooks/useAlert';
+import React, { useContext, useState, useEffect } from 'react';
 import withProtectedRoute from '@/components/withProtectedRoute';
 import BillsContainer from '@/components/dashboard/billsContainer/BillsContainer';
-import { Alert, Snackbar } from '@mui/material';
+import { AlertContext } from '@/app/(dashboard-layout)/layout';
+import { AlertSeverity } from '@/types/alert';
+import { Typography, CircularProgress } from '@mui/material';
 
 function DashboardPage() {
-  const { alert, showAlert, handleAlertClose } = useAlert();
+  const alertContext = useContext(AlertContext);
+  const [error, setError] = useState<string | null>(null);
+
+
+  if (!alertContext) {
+    return <Typography color="error">Alert context is not available. This is likely a configuration error.</Typography>;
+  }
 
   return (
-    <>
-      <BillsContainer showAlert={showAlert} />
-      {/* Snackbar for alerts */}
-      {
-        alert && (
-          <Snackbar open autoHideDuration={6000} onClose={handleAlertClose}>
-            <Alert onClose={handleAlertClose} severity={alert.severity}>
-              {alert.message}
-            </Alert>
-          </Snackbar>
-        )
-      }
-    </>
+    <BillsContainer
+      showAlert={alertContext.showAlert}
+      onError={(errorMessage: string) => {
+        setError(errorMessage);
+        alertContext.showAlert(errorMessage, AlertSeverity.Error);
+      }}
+    />
   );
 }
 

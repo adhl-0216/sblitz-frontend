@@ -195,7 +195,7 @@ export default function SignUpPage() {
             onSubmit={handleSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
-            <FormControl>
+            {/* <FormControl>
               <FormLabel htmlFor="name">Full name</FormLabel>
               <TextField
                 autoComplete="name"
@@ -208,7 +208,7 @@ export default function SignUpPage() {
                 helperText={nameErrorMessage}
                 color={nameError ? 'error' : 'primary'}
               />
-            </FormControl>
+            </FormControl> */}
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
@@ -265,7 +265,7 @@ export default function SignUpPage() {
               </span>
             </Typography>
           </Box>
-          <Divider>
+          {/* <Divider>
             <Typography sx={{ color: 'text.secondary' }}>or</Typography>
           </Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -285,7 +285,7 @@ export default function SignUpPage() {
             >
               Sign up with Facebook
             </Button>
-          </Box>
+          </Box> */}
         </Card>
       </SignUpContainer>
     </>

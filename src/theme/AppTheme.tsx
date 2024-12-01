@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import type { ThemeOptions } from '@mui/material/styles';
 import { colorSchemes, typography, shadows, shape } from './themePrimitives';
 
+
 interface AppThemeProps {
   children: React.ReactNode;
   disableCustomTheme?: boolean;
@@ -30,8 +31,7 @@ export default function AppTheme({
         typography,
         shadows,
         shape,
-        components: {
-        },
+        components: {},
       });
   }, [disableCustomTheme, themeComponents]);
   if (disableCustomTheme) {

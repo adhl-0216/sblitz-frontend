@@ -2,13 +2,14 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import BillForm from '@/components/dashboard/billForm/BillForm';
-import { Box, Modal, Typography, Snackbar, Alert } from '@mui/material';
+import { Box, Modal, Typography } from '@mui/material';
 import axios from 'axios';
 import { Bill } from '@/models/Bill';
+import { AlertSeverity } from '@/types/alert';
 
 interface CreateBillModalProps {
     refetchBills: () => void;
-    showAlert: (message: string, severity: 'success' | 'error') => void;
+    showAlert: (message: string, severity: AlertSeverity) => void;
 }
 
 export default function CreateBillModal({ showAlert, refetchBills }: CreateBillModalProps) {
@@ -23,12 +24,12 @@ export default function CreateBillModal({ showAlert, refetchBills }: CreateBillM
                 headers: { 'Content-Type': 'application/json' },
             });
             if (response.status === 201) {
-                showAlert('Bill created successfully!', 'success');
+                showAlert('Bill created successfully!', AlertSeverity.Success);
                 handleClose();
                 refetchBills()
             }
         } catch (error) {
-            showAlert('Error creating bill. Please try again.', 'error');
+            showAlert('Error creating bill. Please try again.', AlertSeverity.Error);
         }
     };
 
@@ -72,7 +73,7 @@ export default function CreateBillModal({ showAlert, refetchBills }: CreateBillM
                     <Typography variant="h6" gutterBottom>
                         Create a New Bill
                     </Typography>
-                    <BillForm onSubmit={handleSubmit} />
+                    <BillForm mode='create' onSubmit={handleSubmit} />
                 </Box>
             </Modal>
         </>

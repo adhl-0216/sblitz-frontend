@@ -10,12 +10,17 @@ import { useAlert } from '@/hooks/useAlert';
 import AppNavbar from '@/components/dashboard/AppNavbar';
 import Header from '@/components/dashboard/Header';
 import SideMenu from '@/components/dashboard/SideMenu';
+import { AlertSeverity } from '@/types/alert';
+
+export const AlertContext = React.createContext<{
+    showAlert: (message: string, severity: AlertSeverity) => void;
+} | null>(null);
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { alert, showAlert, handleAlertClose } = useAlert();
 
     return (
-        <>
+        <AlertContext.Provider value={{ showAlert }}>
             <Box sx={{ display: 'flex' }}>
                 <SideMenu />
                 <AppNavbar />
@@ -24,7 +29,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     sx={(theme) => ({
                         flexGrow: 1,
                         backgroundColor: alpha(theme.palette.background.default, 1),
-                        // overflow: 'auto',
                     })}
                 >
                     <Stack
@@ -42,7 +46,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </Box>
             </Box>
 
-
-        </>
+            {alert && (
+                <Snackbar open autoHideDuration={6000} onClose={handleAlertClose}>
+                    <Alert onClose={handleAlertClose} severity={alert.severity}>
+                        {alert.message}
+                    </Alert>
+                </Snackbar>
+            )}
+        </AlertContext.Provider>
     );
 }

@@ -13,9 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeToggle from '@/components/ColorModeToggle';
 import Link from 'next/link';
-import { Typography } from '@mui/material';
 import { SblitzIcon } from '../CustomIcons';
-import { Height } from '@mui/icons-material';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -63,11 +61,8 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button LinkComponent={Link} href='/sign-in' color="primary" variant="text" size="small">
+            <Button LinkComponent={Link} href='/sign-in' color="primary" variant="contained" size="small">
               Sign in
-            </Button>
-            <Button LinkComponent={Link} href='/sign-up' color="primary" variant="contained" size="small">
-              Sign up
             </Button>
             <ColorModeToggle />
           </Box>
@@ -102,13 +97,7 @@ export default function AppAppBar() {
 
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
-                  <Button LinkComponent={Link} href='/sign-up'
-                    color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button LinkComponent={Link} href='/sign-up' color="primary" variant="outlined" fullWidth>
+                  <Button LinkComponent={Link} href='/sign-in' color="primary" variant="outlined" fullWidth>
                     Sign in
                   </Button>
                 </MenuItem>

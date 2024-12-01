@@ -14,6 +14,7 @@ import axios from 'axios';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { AlertSeverity } from '@/types/alert';
 
 
 interface BillCardProps {
@@ -23,7 +24,7 @@ interface BillCardProps {
     members: Member[];
     billId: string;
     refetchBills: () => void;
-    showAlert: (message: string, severity: 'success' | 'error') => void;
+    showAlert: (message: string, severity: AlertSeverity) => void;
 }
 
 export default function BillCard({ title, description, lastUpdated, members, billId, showAlert, refetchBills }: BillCardProps) {
@@ -43,11 +44,11 @@ export default function BillCard({ title, description, lastUpdated, members, bil
     const handleDelete = async () => {
         try {
             await axios.delete(`/api/bill/${billId}`);
-            showAlert('Bill deleted successfully!', 'success');
+            showAlert('Bill deleted successfully!', AlertSeverity.Success);
             refetchBills()
         } catch (error) {
             console.log(error)
-            showAlert('Failed to delete the bill. Please try again.', 'error');
+            showAlert('Failed to delete the bill. Please try again.', AlertSeverity.Error);
         }
         handleMenuClose();
     };

@@ -1,37 +1,19 @@
 import React from 'react';
 import ItemSection from '@/components/dashboard/billForm/ItemSection';
 import MemberSection from '@/components/dashboard/billForm/MemberSection';
-import { Autocomplete, Box, Button, TextField, Alert } from '@mui/material';
+import { Autocomplete, Box, Button, TextField, Alert, Typography } from '@mui/material';
 import { Item } from '@/models/Item';
 import { Member } from '@/models/Member';
 import { Bill } from '@/models/Bill';
-
-const currencies = [
-    { label: 'USD', symbol: '$' },
-    { label: 'EUR', symbol: '€' },
-    { label: 'GBP', symbol: '£' },
-    { label: 'JPY', symbol: '¥' },
-    { label: 'AUD', symbol: 'A$' },
-    { label: 'CAD', symbol: 'C$' },
-    { label: 'CHF', symbol: 'CHF' },
-    { label: 'CNY', symbol: '¥' },
-    { label: 'SEK', symbol: 'kr' },
-    { label: 'NZD', symbol: 'NZ$' }
-];
+import { Currencies } from '@/models/Currency';
 
 interface BillFormProps {
+    mode: 'create' | 'update';
     onSubmit: (bill: Bill) => void;
-    initialData?: {
-        title?: string;
-        description?: string;
-        currency?: string;
-        totalAmount?: number;
-        items?: Omit<Item, 'id'>[];
-        members?: Omit<Member, 'id'>[];
-    };
+    initialData?: Partial<Bill>;
 }
 
-function BillForm({ onSubmit, initialData = {} }: BillFormProps) {
+function BillForm({ mode, onSubmit, initialData = {} }: BillFormProps) {
     const [billData, setBillData] = React.useState<{
         title?: string;
         description?: string;
@@ -141,7 +123,7 @@ function BillForm({ onSubmit, initialData = {} }: BillFormProps) {
                 margin="normal"
             />
             <Autocomplete
-                options={currencies}
+                options={Object.values(Currencies)}
                 getOptionLabel={(option) => option.label + ' ' + option.symbol}
                 renderInput={(params) => (
                     <TextField
@@ -153,18 +135,26 @@ function BillForm({ onSubmit, initialData = {} }: BillFormProps) {
                     />
                 )}
                 onChange={handleCurrencyChange}
-                value={currencies.find(currency => currency.label === billData.currency) || null}
+                value={Object.values(Currencies).find(currency => currency.label === billData.currency) || null}
             />
 
-            <ItemSection items={billData.items || []} setBillData={setBillData} />
             <MemberSection members={billData.members || []} setBillData={setBillData} />
+            <ItemSection items={billData.items || []} setBillData={setBillData} />
 
-            <Button type="submit" variant="contained" color="primary">
-                Submit
+            <Typography variant="h6" sx={{ mt: 3 }}>
+                Total Amount: {billData.currency} {billData.totalAmount?.toFixed(2) || '0.00'}
+            </Typography>
+
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2, width: '100%' }}
+            >
+                {mode === 'create' ? 'Create Bill' : 'Update Bill'}
             </Button>
         </Box>
     );
 }
 
 export default BillForm;
-

@@ -91,11 +91,11 @@ const ItemSection: React.FC<ItemSectionProps> = ({ items, setBillData }) => {
                         required
                         margin="normal"
                     />
-                    {/* <PriceInput
+                    <PriceInput
                         value={item.price}
                         index={index}
                         setItemPrice={setItemPrice}
-                    /> */}
+                    />
                     <TextField
                         label="Quantity"
                         title="Quantity"

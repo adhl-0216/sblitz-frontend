@@ -1,5 +1,4 @@
 'use client'
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -13,6 +12,9 @@ import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
 
 import Session from "supertokens-web-js/recipe/session";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Skeleton } from '@mui/material';
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -20,6 +22,40 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+
+  async function getUserInfo() {
+    try {
+      const response = await axios.post('/api/auth/get-user-info');
+      const userInfo = response.data;
+      return userInfo;
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    async function fetchUserInfo() {
+      try {
+        const userInfo = await getUserInfo();
+        if (userInfo && userInfo.emails && userInfo.emails.length > 0) {
+          setUserEmail(userInfo.emails[0]);
+        } else {
+          throw new Error('User email not found');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setUserEmail('');
+        window.location.href = '/login';
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUserInfo();
+  }, []);
   async function logout() {
     await Session.signOut();
     window.location.href = "/sign-in";
@@ -53,9 +89,13 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
               sizes="small"
               sx={{ width: 24, height: 24 }}
             />
-            <Typography component="p" variant="h6">
-              mail.com
-            </Typography>
+            {loading ? (
+              <Skeleton width={120} height={20} />
+            ) : (
+              <Typography component="p" variant="h6">
+                {userEmail}
+              </Typography>
+            )}
           </Stack>
           <MenuButton showBadge>
             <NotificationsRoundedIcon />
