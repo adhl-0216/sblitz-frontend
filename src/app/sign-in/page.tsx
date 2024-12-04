@@ -4,12 +4,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
+import { Link as MuiLink } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -19,6 +17,8 @@ import ForgotPassword from '@/components/sign-in/ForgotPassword';
 import { GoogleIcon, FacebookIcon, SblitzIcon } from '@/components/CustomIcons';
 import ColorModeToggle from '@/components/ColorModeToggle';
 import { signIn } from "supertokens-web-js/recipe/emailpassword";
+import Link from 'next/link';
+import Session from 'supertokens-web-js/recipe/session';
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -69,6 +69,15 @@ export default function SignInPage() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    async function checkAndRedirect() {
+      if (await Session.doesSessionExist()) {
+        window.location.href = '/dashboard';
+      }
+    }
+    checkAndRedirect();
+  }, [])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -165,7 +174,9 @@ export default function SignInPage() {
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeToggle sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <SblitzIcon />
+          <Link href="/" passHref>
+            <SblitzIcon />
+          </Link>
           <Typography
             component="h1"
             variant="h4"
@@ -205,7 +216,7 @@ export default function SignInPage() {
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <FormLabel htmlFor="password">Password</FormLabel>
-                <Link
+                <MuiLink
                   component="button"
                   type="button"
                   onClick={handleClickOpen}
@@ -213,7 +224,7 @@ export default function SignInPage() {
                   sx={{ alignSelf: 'baseline' }}
                 >
                   Forgot your password?
-                </Link>
+                </MuiLink>
               </Box>
               <TextField
                 error={passwordError}
@@ -246,13 +257,13 @@ export default function SignInPage() {
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <span>
-                <Link
+                <MuiLink
                   href="/sign-up"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
                   Sign up
-                </Link>
+                </MuiLink>
               </span>
             </Typography>
           </Box>

@@ -3,24 +3,15 @@ import React from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 
-import { useAlert } from '@/hooks/useAlert';
-import AppNavbar from '@/components/dashboard/AppNavbar';
-import Header from '@/components/dashboard/Header';
-import SideMenu from '@/components/dashboard/SideMenu';
-import { AlertSeverity } from '@/types/alert';
-
-export const AlertContext = React.createContext<{
-    showAlert: (message: string, severity: AlertSeverity) => void;
-} | null>(null);
+import AppNavbar from '@/components/dashboard/layout/AppNavbar';
+import Header from '@/components/dashboard/layout/Header';
+import SideMenu from '@/components/dashboard/layout/SideMenu';
+import { AlertProvider } from '@/context/AlertContext';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-    const { alert, showAlert, handleAlertClose } = useAlert();
-
     return (
-        <AlertContext.Provider value={{ showAlert }}>
+        <AlertProvider>
             <Box sx={{ display: 'flex' }}>
                 <SideMenu />
                 <AppNavbar />
@@ -45,14 +36,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </Stack>
                 </Box>
             </Box>
-
-            {alert && (
-                <Snackbar open autoHideDuration={6000} onClose={handleAlertClose}>
-                    <Alert onClose={handleAlertClose} severity={alert.severity}>
-                        {alert.message}
-                    </Alert>
-                </Snackbar>
-            )}
-        </AlertContext.Provider>
+        </AlertProvider>
     );
 }

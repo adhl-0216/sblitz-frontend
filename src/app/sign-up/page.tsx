@@ -2,13 +2,8 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -17,6 +12,10 @@ import { styled } from '@mui/material/styles';
 import { GoogleIcon, FacebookIcon, SblitzIcon } from '@/components/CustomIcons';
 import ColorModeToggle from '@/components/ColorModeToggle';
 import { signUp, doesEmailExist } from "supertokens-web-js/recipe/emailpassword";
+import { Link as MuiLink } from '@mui/material'
+import Link from 'next/link'
+import Session from 'supertokens-web-js/recipe/session';
+
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -68,6 +67,15 @@ export default function SignUpPage() {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [nameError, setNameError] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState('');
+
+  useEffect(() => {
+    async function checkAndRedirect() {
+      if (await Session.doesSessionExist()) {
+        window.location.href = '/dashboard';
+      }
+    }
+    checkAndRedirect();
+  }, [])
 
   async function checkEmail(email: string) {
     try {
@@ -182,7 +190,9 @@ export default function SignUpPage() {
       <ColorModeToggle sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
-          <SblitzIcon />
+          <Link href="/" passHref>
+            <SblitzIcon />
+          </Link>
           <Typography
             component="h1"
             variant="h4"
@@ -255,13 +265,13 @@ export default function SignUpPage() {
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <span>
-                <Link
+                <MuiLink
                   href="/sign-in/"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
                   Sign in
-                </Link>
+                </MuiLink>
               </span>
             </Typography>
           </Box>

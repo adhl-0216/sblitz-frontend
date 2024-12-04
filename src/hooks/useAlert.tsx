@@ -1,16 +1,10 @@
-import { AlertSeverity } from '@/types/alert';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { AlertContext } from '@/context/AlertContext';
 
-export function useAlert() {
-    const [alert, setAlert] = useState<{ message: string; severity: AlertSeverity } | null>(null);
-
-    const showAlert = (message: string, severity: AlertSeverity) => {
-        setAlert({ message, severity });
-    };
-
-    const handleAlertClose = () => {
-        setAlert(null);
-    };
-
-    return { alert, showAlert, handleAlertClose };
-}
+export const useAlert = () => {
+    const context = useContext(AlertContext);
+    if (!context) {
+        throw new Error('useAlert must be used within an AlertProvider');
+    }
+    return context;
+};

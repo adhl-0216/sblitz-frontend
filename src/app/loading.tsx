@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import AppTheme from '@/theme/AppTheme';
 
 const loadingPhrases = [
     "Fetching data from the digital realm...",

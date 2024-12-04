@@ -4,9 +4,11 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { getErrorMessage } from '@/error';
 import BillForm from '@/components/dashboard/billForm/BillForm';
-import { Box } from '@mui/material';
-import { AlertContext } from '@/app/(dashboard-layout)/layout';
+import { Box, Stack, Typography } from '@mui/material';
 import { AlertSeverity } from '@/types/alert';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { useAlert } from '@/hooks/useAlert';
+
 
 export default function BillDetailsPage({
     params,
@@ -16,8 +18,7 @@ export default function BillDetailsPage({
     const [billDetails, setBillDetails] = useState<Bill | null>(null);
     const [error, setError] = useState<string | undefined>(undefined);
     const [billId, setBillId] = useState<string | null>(null);
-    const alertContext = useContext(AlertContext);
-
+    const { showAlert } = useAlert()
 
     useEffect(() => {
         const fetchBillId = async () => {
@@ -61,7 +62,7 @@ export default function BillDetailsPage({
             });
 
             if (response.status == 200) {
-                alertContext?.showAlert('Bill updated successfully!', AlertSeverity.Success);
+                showAlert('Bill updated successfully!', AlertSeverity.Success);
                 fetchBillDetails()
             }
 
@@ -74,13 +75,39 @@ export default function BillDetailsPage({
     return (
         <>
             <Box>
-                <h1>Bill Details</h1>
+                <Typography variant='h2'>Bill Details</Typography>
+
                 {billDetails ? (
-                    <BillForm
-                        mode='update'
-                        onSubmit={handleSubmit}
-                        initialData={billDetails}
-                    />
+                    <Stack>
+                        <Typography
+                            sx={{
+                                color: 'text.secondary',
+                                mb: 1.5,
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <AccessTimeIcon fontSize="small" sx={{ mr: 1 }} />
+                            {(() => {
+                                const date = new Date(billDetails.updatedAt);
+                                return date.toLocaleString('en-US', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false,
+                                }).replace(',', ' at');
+                            })()}
+
+                        </Typography>
+                        <BillForm
+                            mode='update'
+                            onSubmit={handleSubmit}
+                            initialData={billDetails}
+                        />
+                    </Stack>
+
                 ) : (
                     null
                 )}

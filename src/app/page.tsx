@@ -6,15 +6,14 @@ import Hero from '@/components/home/Hero';
 import Session from 'supertokens-web-js/recipe/session';
 import { useEffect } from 'react';
 
-async function checkAndRedirect() {
-  if (await Session.doesSessionExist()) {
-    window.location.href = '/dashboard';
-  }
-}
-
 
 export default function Home() {
   useEffect(() => {
+    async function checkAndRedirect() {
+      if (await Session.doesSessionExist()) {
+        window.location.href = '/dashboard';
+      }
+    }
     checkAndRedirect();
   }, [])
   return (

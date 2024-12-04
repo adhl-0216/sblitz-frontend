@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Box, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
-import MembersList from '@/components/dashboard/billsContainer/MembersList';
+import MembersList from '@/components/dashboard/MembersList';
 import { Member } from '@/models/Member';
 import Link from 'next/link';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { AlertSeverity } from '@/types/alert';
+import { useAlert } from '@/hooks/useAlert';
 
 
 interface BillCardProps {
@@ -24,11 +25,12 @@ interface BillCardProps {
     members: Member[];
     billId: string;
     refetchBills: () => void;
-    showAlert: (message: string, severity: AlertSeverity) => void;
 }
 
-export default function BillCard({ title, description, lastUpdated, members, billId, showAlert, refetchBills }: BillCardProps) {
+export default function BillCard({ title, description, lastUpdated, members, billId, refetchBills }: BillCardProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const { showAlert } = useAlert();
+
     const open = Boolean(anchorEl);
 
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

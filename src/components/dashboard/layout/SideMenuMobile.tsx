@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 
-import MenuButton from './MenuButton';
-import MenuContent from './MenuContent';
+import MenuButton from '@/components/dashboard/layout/MenuButton';
+import MenuContent from '@/components/dashboard/layout/MenuContent';
 
 import Session from "supertokens-web-js/recipe/session";
 import axios from 'axios';

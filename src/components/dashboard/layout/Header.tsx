@@ -2,8 +2,8 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import MenuButton from './MenuButton';
-import ColorModeToggle from '../ColorModeToggle';
+import MenuButton from '@/components/dashboard/layout/MenuButton';
+import ColorModeToggle from '@/components/ColorModeToggle';
 
 export default function Header() {
   return (

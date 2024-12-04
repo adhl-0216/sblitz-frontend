@@ -9,10 +9,11 @@ import { IconButton, Skeleton } from '@mui/material';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import Session from "supertokens-web-js/recipe/session";
 
-import MenuContent from '@/components/dashboard/MenuContent';
+import MenuContent from '@/components/dashboard/layout/MenuContent';
 import { SblitzIcon } from '@/components/CustomIcons';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -56,7 +57,7 @@ export default function SideMenu() {
       } catch (error) {
         console.error('Error fetching user info:', error);
         setUserEmail('');
-        window.location.href = '/login';
+        window.location.href = '/sign-in';
       }
     }
     fetchUserInfo();
@@ -78,7 +79,9 @@ export default function SideMenu() {
         },
       }}
     >
-      <SblitzIcon />
+      <Link href="/dashboard" passHref>
+        <SblitzIcon />
+      </Link>
       <Divider />
       <MenuContent />
       <Stack
@@ -95,13 +98,23 @@ export default function SideMenu() {
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1 }} >
           <Avatar
             sizes="small"
-            alt=""
+            title={userEmail}
             sx={{ width: 36, height: 36 }}
-          />
+          >
+            {userEmail.charAt(0).toUpperCase()}
+          </Avatar>
+
           {loading ? (
             <Skeleton width={120} height={20} />
           ) : (
-            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
+            <Typography variant="body2" title={userEmail} sx={{
+              fontWeight: 500,
+              lineHeight: '16px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: 120
+            }}>
               {userEmail}
             </Typography>
           )}

@@ -6,14 +6,15 @@ import { Box, Modal, Typography } from '@mui/material';
 import axios from 'axios';
 import { Bill } from '@/models/Bill';
 import { AlertSeverity } from '@/types/alert';
+import { useAlert } from '@/hooks/useAlert';
 
 interface CreateBillModalProps {
     refetchBills: () => void;
-    showAlert: (message: string, severity: AlertSeverity) => void;
 }
 
-export default function CreateBillModal({ showAlert, refetchBills }: CreateBillModalProps) {
+export default function CreateBillModal({ refetchBills }: CreateBillModalProps) {
     const [open, setOpen] = React.useState(false);
+    const { showAlert } = useAlert()
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
