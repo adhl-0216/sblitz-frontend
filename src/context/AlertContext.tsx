@@ -23,7 +23,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
         <AlertContext.Provider value={{ showAlert }}>
             {children}
             {alert && (
-                <Snackbar open autoHideDuration={6000} onClose={handleAlertClose}>
+                <Snackbar open autoHideDuration={5000} onClose={handleAlertClose}>
                     <MuiAlert onClose={handleAlertClose} severity={alert.severity} variant="filled">
                         {alert.message}
                     </MuiAlert>
