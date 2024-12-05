@@ -13,6 +13,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Copy the .env file into the image at build time
+ARG ENV_FILE=.env
+COPY $ENV_FILE .env
+
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN corepack enable pnpm && pnpm run build;
